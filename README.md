@@ -1,8 +1,14 @@
+[![Build Status](https://travis-ci.org/tonytonyjan/libpuzzle_ruby.svg?branch=master)](https://travis-ci.org/tonytonyjan/libpuzzle_ruby)
+
+This Ruby gem is made for image simularity comparison, using the C libary [libpuzzle](http://www.pureftpd.org/project/libpuzzle).
+
 # Install
 
 ```
 gem install libpuzzle
 ```
+
+Make sure you have installed libpuzzle first.
 
 # Usage
 
