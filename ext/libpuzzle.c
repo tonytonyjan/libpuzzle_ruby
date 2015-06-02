@@ -9,12 +9,12 @@ typedef struct Puzzle{
   PuzzleCvec vector;
 } Puzzle;
 
-void free_puzzle(Puzzle *puzzle){
+static void free_puzzle(Puzzle *puzzle){
   puzzle_free_context(&puzzle->context);
   puzzle_free_cvec(&puzzle->context, &puzzle->vector);
 }
 
-VALUE new(VALUE klass, VALUE file_path){
+static VALUE new(VALUE klass, VALUE file_path){
   Puzzle *puzzle;
   VALUE ret = Data_Make_Struct(klass, Puzzle, 0, free_puzzle, puzzle);
   puzzle_init_context(&puzzle->context);
@@ -29,7 +29,7 @@ VALUE new(VALUE klass, VALUE file_path){
   return ret;
 }
 
-double _distance(VALUE p1, VALUE p2){
+static double _distance(VALUE p1, VALUE p2){
   Puzzle *puzzle_1, *puzzle_2;
   Data_Get_Struct(p1, Puzzle, puzzle_1);
   Data_Get_Struct(p2, Puzzle, puzzle_2);
@@ -38,15 +38,15 @@ double _distance(VALUE p1, VALUE p2){
   return dist;
 }
 
-VALUE distance(VALUE p1, VALUE p2){
+static VALUE distance(VALUE p1, VALUE p2){
   return rb_float_new(_distance(p1, p2));
 }
 
-VALUE equal(VALUE p1, VALUE p2){
+static VALUE equal(VALUE p1, VALUE p2){
   return _distance(p1, p2) < 0.6 ? Qtrue : Qfalse;
 }
 
-VALUE compress(VALUE self){
+static VALUE compress(VALUE self){
   Puzzle *puzzle;
   PuzzleCompressedCvec c_cvec;
   Data_Get_Struct(self, Puzzle, puzzle);
@@ -58,7 +58,7 @@ VALUE compress(VALUE self){
   return ret;
 }
 
-VALUE uncompress(VALUE klass, VALUE compressed_string){
+static VALUE uncompress(VALUE klass, VALUE compressed_string){
   Puzzle *puzzle;
   PuzzleCompressedCvec c_cvec;
 
