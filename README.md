@@ -8,7 +8,7 @@ This Ruby gem is made for image simularity comparison, using the C libary [libpu
 gem install libpuzzle
 ```
 
-Make sure you have installed libpuzzle first.
+Make sure you have installed libpuzzle (>= 0.11) first.
 
 # Usage
 
