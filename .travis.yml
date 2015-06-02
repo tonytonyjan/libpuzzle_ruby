@@ -1,8 +1,15 @@
 language: ruby
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libgd2-xpm-dev
 install:
   - wget http://download.pureftpd.org/pub/pure-ftpd/misc/libpuzzle/releases/libpuzzle-0.11.tar.bz2
-  - tar -xvj libpuzzle-0.11.tar.bz2
-  - cd libpuzzle-0.11 && ./configure && make && make install
+  - tar -xvj -f libpuzzle-0.11.tar.bz2
+  - cd libpuzzle-0.11 && ./configure && make && sudo make install
+  - bundle install
+before_script:
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+script: bundle exec rake
 rvm:
   - 2.2.0
   - 2.1.5
