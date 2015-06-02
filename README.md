@@ -27,5 +27,5 @@ p1.distance p2
 p1.compress # => compressed string
 
 # uncompress
-Puzzle.uncompress "COMPRESSED_STRING" # => #<Puzzle>
+Puzzle.uncompress 'COMPRESSED_STRING' # => #<Puzzle>
 ```
