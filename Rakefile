@@ -7,7 +7,7 @@ Rake::ExtensionTask.new('puzzle_ext') do |ext|
 end
 
 require 'rubygems/package_task'
-spec = Gem::Specification.load(File.join(__dir__, 'libpuzzle.gemspec'))
+spec = Gem::Specification.load(File.expand_path('../libpuzzle.gemspec', __FILE__))
 Gem::PackageTask.new(spec).define
 
 task default: [:compile, :test]

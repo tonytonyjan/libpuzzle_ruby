@@ -16,5 +16,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.4.2'
   spec.add_development_dependency 'rake-compiler', '~> 0.9.5'
   spec.add_development_dependency 'minitest', '~> 5.7.0'
-  spec.add_development_dependency 'byebug', '~> 5.0.0'
+  spec.add_development_dependency 'byebug', '~> 5.0.0' if RUBY_VERSION >= '2.0'
 end

@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'byebug'
 require 'puzzle_ext'
 
 class TestMeme < Minitest::Test
