@@ -10,8 +10,8 @@ typedef struct Puzzle{
 } Puzzle;
 
 static void free_puzzle(Puzzle *puzzle){
-  puzzle_free_context(&puzzle->context);
   puzzle_free_cvec(&puzzle->context, &puzzle->vector);
+  puzzle_free_context(&puzzle->context);
 }
 
 static VALUE new(VALUE klass, VALUE file_path){
