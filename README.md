@@ -10,6 +10,36 @@ gem install libpuzzle
 
 Make sure you have installed libpuzzle (>= 0.11) first.
 
+# Install Libpuzzle
+
+Homebrew:
+
+```
+brew install libpuzzle
+```
+
+APT:
+
+```
+apt-get install libpuzzle1 libpuzzle-dev
+```
+
+Compile:
+
+```
+sudo apt-get install -qq libgd2-xpm-dev
+wget http://download.pureftpd.org/pub/pure-ftpd/misc/libpuzzle/releases/libpuzzle-0.11.tar.bz2
+tar -xvj -f libpuzzle-0.11.tar.bz2
+cd libpuzzle-0.11 && ./configure && make && sudo make install
+```
+
+Since the object file is located in `/usr/local/lib`, you might want to export `LD_LIBRARY_PATH` before gem installation, for example:
+
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+gem install libpuzzle
+```
+
 # Usage
 
 ```ruby
