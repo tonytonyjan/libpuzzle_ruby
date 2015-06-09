@@ -59,3 +59,52 @@ p1.compress # => compressed string
 # uncompress
 Puzzle.uncompress 'COMPRESSED_STRING' # => #<Puzzle>
 ```
+
+# Integrate with ActiveRecord
+
+Follow the naming convention of ActiveRecord, the database schema will look like:
+
+```
++---------------------------------+
+|            signatures           |
++---------------------------------+
+|   id   | signature | picture_id |
++--------+-----------+------------+
+
++-------------------------------------+
+|                words                |
++-------------------------------------+
+| id | position | word | signature_id |
++----+----------+------+--------------+
+```
+
+And below is the most efficient implement I can ever think of:
+
+```ruby
+class Word < ActiveRecord::Base
+  belongs_to :signature
+end
+
+class Signature < ActiveRecord::Base
+  K, N = 10, 100
+  has_many :words
+
+  def cut_vectors_into_words!
+    puzzle = Puzzle.uncompress signature
+    i = 0
+    while i < N && word = puzzle.vector.byteslice(i, K)
+      words.find_or_create_by! word: word, position: i
+      i += 1
+    end
+  end
+
+  def similar_signatures
+    # only 1 SQL statement, no loop
+    Signature.distinct.joins(:words)
+      .where('EXISTS (SELECT * FROM words AS _words WHERE _words.sig_id = ? AND _words.position = words.position and _words.word = words.word)', id)
+      .where.not(id: id)
+      .select{ |sig| Puzzle.uncompress(sig.signature) == Puzzle.uncompress(signature) }
+  end
+
+end
+```
