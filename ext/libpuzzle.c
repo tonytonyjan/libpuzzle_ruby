@@ -42,7 +42,11 @@ static VALUE distance(VALUE p1, VALUE p2){
   return rb_float_new(_distance(p1, p2));
 }
 
+static VALUE similar(VALUE p1, VALUE p2){
+  return _distance(p1, p2) < 0.6 ? Qtrue : Qfalse;
+}
 static VALUE equal(VALUE p1, VALUE p2){
+  rb_warn("Puzzle#== is deprecated; use #similar? instead");
   return _distance(p1, p2) < 0.6 ? Qtrue : Qfalse;
 }
 
@@ -84,5 +88,6 @@ void Init_puzzle_ext(void){
   rb_define_singleton_method(rb_cPuzzle, "uncompress", uncompress, 1);
   rb_define_method(rb_cPuzzle, "distance", distance, 1);
   rb_define_method(rb_cPuzzle, "==", equal, 1);
+  rb_define_method(rb_cPuzzle, "similar?", similar, 1);
   rb_define_method(rb_cPuzzle, "compress", compress, 0);
 }

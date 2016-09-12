@@ -22,7 +22,7 @@ class TestMeme < Minitest::Test
   def test_compare
     pattern = File.join(File.expand_path('..', __FILE__), 'tony*.{jpg,png,gif}')
     Dir[pattern].map{ |path| Puzzle.new(path) }.combination(2).each do |pair|
-      assert pair[0] == pair[1]
+      assert pair[0].similar? pair[1]
     end
   end
 

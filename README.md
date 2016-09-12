@@ -47,8 +47,9 @@ gem install libpuzzle
 p1 = Puzzle.new('foo.png')
 p2 = Puzzle.new('bar.png')
 
-# check simularity with threshold 0.6
-p1 == p2
+# default threshold is 0.6
+p1.similar? p2
+p1.similar? p2, threshold: 0.7
 
 # get exact distance
 p1.distance p2
@@ -78,8 +79,6 @@ Follow the naming convention of ActiveRecord, the database schema will look like
 +----+----------+------+--------------+
 ```
 
-And below is the most efficient implement I can ever think of:
-
 ```ruby
 class Word < ActiveRecord::Base
   belongs_to :signature
@@ -99,7 +98,6 @@ class Signature < ActiveRecord::Base
   end
 
   def similar_signatures
-    # only 1 SQL statement, no loop
     Signature.distinct.joins(:words)
       .where('EXISTS (SELECT * FROM words AS _words WHERE _words.sig_id = ? AND _words.position = words.position and _words.word = words.word)', id)
       .where.not(id: id)
