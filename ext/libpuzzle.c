@@ -50,7 +50,11 @@ static VALUE similar(int argc, VALUE *argv, VALUE self){
 
   if (!NIL_P(opt)) {
     VALUE rb_threshold = rb_hash_aref(opt, ID2SYM(rb_intern("threshold")));
+#ifdef RUBY_API_VERSION_MAJOR
     if(RB_FLOAT_TYPE_P(rb_threshold)) threshold = NUM2DBL(rb_threshold);
+#else
+    if(TYPE(rb_threshold) == T_FLOAT) threshold = NUM2DBL(rb_threshold);
+#endif
   }
   return _distance(self, puzzle) < threshold ? Qtrue : Qfalse;
 }
