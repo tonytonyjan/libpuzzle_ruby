@@ -35,4 +35,10 @@ class TestMeme < Minitest::Test
     assert_equal @puzzle.vector, puzzle.vector
   end
 
+  def test_threshold
+    p1 = Puzzle.new(File.expand_path('../tony_gray.png', __FILE__))
+    p2 = Puzzle.new(File.expand_path('../tony.png', __FILE__))
+    assert p1.similar? p2, threshold: 0.1235
+    refute p1.similar? p2, threshold: 0.1234
+  end
 end

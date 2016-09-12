@@ -47,8 +47,7 @@ gem install libpuzzle
 p1 = Puzzle.new('foo.png')
 p2 = Puzzle.new('bar.png')
 
-# default threshold is 0.6
-p1.similar? p2
+p1.similar? p2 # default threshold is 0.6
 p1.similar? p2, threshold: 0.7
 
 # get exact distance

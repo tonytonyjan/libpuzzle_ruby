@@ -42,12 +42,22 @@ static VALUE distance(VALUE p1, VALUE p2){
   return rb_float_new(_distance(p1, p2));
 }
 
-static VALUE similar(VALUE p1, VALUE p2){
-  return _distance(p1, p2) < 0.6 ? Qtrue : Qfalse;
+static VALUE similar(int argc, VALUE *argv, VALUE self){
+  VALUE puzzle, opt;
+  double threshold = 0.6;
+
+  rb_scan_args(argc, argv, "1:", &puzzle, &opt);
+
+  if (!NIL_P(opt)) {
+    VALUE rb_threshold = rb_hash_aref(opt, ID2SYM(rb_intern("threshold")));
+    if(RB_FLOAT_TYPE_P(rb_threshold)) threshold = NUM2DBL(rb_threshold);
+  }
+  return _distance(self, puzzle) < threshold ? Qtrue : Qfalse;
 }
-static VALUE equal(VALUE p1, VALUE p2){
+
+static VALUE equal(int argc, VALUE *argv, VALUE str){
   rb_warn("Puzzle#== is deprecated; use #similar? instead");
-  return _distance(p1, p2) < 0.6 ? Qtrue : Qfalse;
+  return similar(argc, argv, str);
 }
 
 static VALUE compress(VALUE self){
@@ -87,7 +97,7 @@ void Init_puzzle_ext(void){
   rb_define_singleton_method(rb_cPuzzle, "new", new, 1);
   rb_define_singleton_method(rb_cPuzzle, "uncompress", uncompress, 1);
   rb_define_method(rb_cPuzzle, "distance", distance, 1);
-  rb_define_method(rb_cPuzzle, "==", equal, 1);
-  rb_define_method(rb_cPuzzle, "similar?", similar, 1);
+  rb_define_method(rb_cPuzzle, "==", equal, -1);
+  rb_define_method(rb_cPuzzle, "similar?", similar, -1);
   rb_define_method(rb_cPuzzle, "compress", compress, 0);
 }
